@@ -1,4 +1,4 @@
-# CLAUDE.md — ConciseZone Marketing Repository
+# CLAUDE.md — ConciseZone Marketing AI Work Team
 
 This file provides guidance for AI assistants (Claude and others) working in this repository.
 
@@ -7,19 +7,54 @@ This file provides guidance for AI assistants (Claude and others) working in thi
 ## Project Overview
 
 **Repository:** `concisezone-alt/CONCISEZONE-MARKETING`
-**Purpose:** Marketing assets, campaigns, and related code for the ConciseZone platform.
+**Purpose:** AI-powered marketing work team for the ConciseZone platform. This workspace coordinates a team of specialized AI agents that collaborate on marketing campaigns, content creation, brand management, and channel distribution.
 
-> **Note:** This repository was initialized on 2026-03-08 and currently contains no source files. Update this document as the project takes shape.
+**Initialized:** 2026-03-08
 
 ---
 
-## Repository Status
+## What This Project Is
 
-This repository is in initial setup. As files are added, update the sections below to reflect:
-- The chosen tech stack and framework
-- Directory layout conventions
-- Build and deployment instructions
-- Testing approach
+ConciseZone Marketing is an AI work team — a structured set of AI agents, workflows, templates, and brand assets that together function as a full marketing team. Each agent has a defined role and works within shared brand guidelines and campaign workflows to produce consistent, high-quality marketing output.
+
+### AI Agent Roles
+
+| Agent | Folder | Responsibility |
+|-------|--------|----------------|
+| Campaign Manager | `agents/campaign-manager/` | Plans campaigns, sets goals, coordinates other agents |
+| Copywriter | `agents/copywriter/` | Writes copy for ads, emails, landing pages, and social posts |
+| SEO Specialist | `agents/seo-specialist/` | Keyword research, on-page SEO, content optimization |
+| Social Media Manager | `agents/social-media/` | Social content, scheduling strategy, platform tone |
+| Email Marketer | `agents/email-marketer/` | Email sequences, newsletters, nurture campaigns |
+| Content Strategist | `agents/content-strategist/` | Blog posts, long-form content, editorial calendar |
+
+---
+
+## Directory Layout
+
+```
+CONCISEZONE-MARKETING/
+├── CLAUDE.md                   # This file — project guidance for AI assistants
+├── agents/                     # AI agent definitions, personas, and system prompts
+│   ├── campaign-manager/
+│   ├── copywriter/
+│   ├── seo-specialist/
+│   ├── social-media/
+│   ├── email-marketer/
+│   └── content-strategist/
+├── brand/                      # Brand guidelines, voice, tone, and visual references
+│   ├── guidelines.md
+│   └── voice-and-tone.md
+├── campaigns/                  # One folder per campaign; contains briefs and outputs
+├── content/                    # Content organized by channel
+│   ├── blog/
+│   ├── email/
+│   ├── social/
+│   └── ads/
+├── templates/                  # Reusable templates for briefs, copy, and calendars
+├── workflows/                  # Multi-agent workflow definitions and orchestration specs
+└── outputs/                    # Final deliverables ready for publishing or handoff
+```
 
 ---
 
@@ -31,7 +66,7 @@ This repository is in initial setup. As files are added, update the sections bel
 |------|---------|---------|
 | Feature | `feature/<short-description>` | `feature/add-landing-page` |
 | Bug fix | `fix/<short-description>` | `fix/broken-cta-link` |
-| AI-generated | `claude/<task-id>` | `claude/claude-md-mmhm5wiig3byyml3-XTcy2` |
+| AI-generated | `claude/<task-id>` | `claude/setup-marketing-team-project-6mRQ3` |
 | Release | `release/<version>` | `release/v1.2.0` |
 
 ### Commit Messages
@@ -48,9 +83,10 @@ Common types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 Examples:
 ```
-feat(landing): add hero section with CTA button
+feat(campaigns): add Q2 product launch campaign brief
+feat(agents): add copywriter agent system prompt
 fix(email): correct unsubscribe link in newsletter template
-docs: update CLAUDE.md with project structure
+docs: update CLAUDE.md with directory layout
 chore: add .gitignore for Node.js project
 ```
 
@@ -72,39 +108,40 @@ AI assistant branches must start with `claude/` and end with the matching sessio
 1. Pull the latest changes from the target branch.
 2. Create a dedicated feature branch.
 3. Confirm the task scope before making changes.
+4. Review brand guidelines (`brand/guidelines.md`) before generating content.
 
 ### Making Changes
 
-1. Keep changes focused and minimal — do not refactor unrelated code.
+1. Keep changes focused and minimal — do not refactor unrelated files.
 2. Prefer editing existing files over creating new ones.
-3. Do not add comments, docstrings, or type annotations to code you did not change.
-4. Avoid over-engineering; build only what is needed now.
+3. All agent output goes into the appropriate `content/` subfolder or `campaigns/<campaign-name>/`.
+4. Do not commit draft content as final — use a `drafts/` subfolder within campaigns.
 
 ### After Making Changes
 
-1. Run the project's lint and test commands (update this section once the stack is defined).
-2. Commit with a descriptive message following the convention above.
-3. Push to the feature branch.
-4. Open a pull request with a clear summary of the changes.
+1. Commit with a descriptive message following the convention above.
+2. Push to the feature branch.
+3. Open a pull request with a clear summary of the changes.
 
 ---
 
-## Code Conventions
+## Code & Content Conventions
 
-> Update this section once a tech stack and linter configuration are established.
+### Secrets
 
-### General Rules
-
-- **Formatting:** Use the project's formatter (Prettier, Black, etc.) — never manually reformat unrelated code.
-- **Naming:** Follow the conventions already present in the file being edited.
-- **Secrets:** Never commit API keys, credentials, or `.env` files. Use `.env.example` for documenting required variables.
-- **Dependencies:** Add new dependencies only when clearly necessary; prefer existing packages.
+- Never commit API keys, credentials, or `.env` files.
+- Use `.env.example` to document required environment variables.
 
 ### Security
 
 - Sanitize all user-supplied input at system boundaries.
-- Do not introduce SQL injection, XSS, command injection, or other OWASP Top 10 vulnerabilities.
 - Validate external API responses before using their data.
+
+### Content
+
+- All copy must align with the brand voice defined in `brand/voice-and-tone.md`.
+- Campaign briefs live in `campaigns/<campaign-name>/brief.md` before any content is created.
+- Completed deliverables move to `outputs/` when approved.
 
 ---
 
@@ -112,41 +149,45 @@ AI assistant branches must start with `claude/` and end with the matching sessio
 
 ### What You Should Do
 
-- Read existing code thoroughly before suggesting or making changes.
-- Match the style, patterns, and conventions already in the file.
+- Read `brand/guidelines.md` and `brand/voice-and-tone.md` before writing any copy.
+- Check the relevant campaign brief before creating campaign-specific content.
+- Follow the agent role descriptions when acting as a specific agent.
 - Break large tasks into a todo list and complete them sequentially.
-- Confirm with the user before taking irreversible actions (deleting files, force-pushing, dropping data).
-- Prefer simple, direct solutions over abstractions.
+- Confirm with the user before taking irreversible actions.
 
 ### What You Should Not Do
 
 - Do not push to `main`/`master` without explicit permission.
-- Do not create files that aren't strictly necessary.
-- Do not add features, error handling, or configurability beyond what was requested.
+- Do not create content outside the defined folder structure.
+- Do not invent brand guidelines — always reference what is in `brand/`.
 - Do not use `--no-verify`, `--force`, or other safety bypasses without explicit instruction.
 - Do not commit `.env` files or secrets.
 - Do not guess URLs or fabricate external links.
 
 ### Risky Actions — Always Confirm First
 
-The following require explicit user approval before proceeding:
 - `git push --force`
 - `git reset --hard`
 - Deleting files or directories
+- Publishing or distributing content to external channels
 - Modifying CI/CD pipelines
-- Posting to external services (Slack, email, GitHub PRs/issues)
-- Dropping or truncating database tables
 
 ---
 
-## Adding to This Document
+## Environment Variables
 
-When the project gains structure, add the following sections:
+> Update this section as integrations are added.
 
-- **Tech Stack** — languages, frameworks, runtime versions
-- **Directory Layout** — annotated tree of the project
-- **Environment Variables** — list of required variables and their purpose
-- **Build & Run** — commands to install dependencies, start dev server, and build for production
-- **Testing** — how to run unit, integration, and end-to-end tests
-- **Deployment** — where and how the project is deployed
-- **Design System / Assets** — brand guidelines, color palette, fonts, logo usage
+| Variable | Purpose |
+|----------|---------|
+| `ANTHROPIC_API_KEY` | Claude API key for running AI agents |
+
+---
+
+## Sections to Add as the Project Grows
+
+- **Tech Stack** — languages, frameworks, runtime versions (e.g., if agents are automated via scripts)
+- **Build & Run** — commands to install dependencies and run agent pipelines
+- **Testing** — how to validate agent outputs and workflow correctness
+- **Deployment** — publishing pipelines and handoff processes
+- **Integrations** — CMS, email platform, social scheduler, analytics tools
