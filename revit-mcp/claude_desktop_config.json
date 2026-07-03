@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "revit": {
+      "command": "python",
+      "args": [
+        "C:\\path\\to\\revit-mcp\\mcp-server\\server.py"
+      ],
+      "env": {
+        "REVITMCP_TOKEN": "your-secret-token-here",
+        "REVITMCP_HOST": "http://localhost:7777",
+        "STANDARDS_DIR": "C:\\path\\to\\revit-mcp\\mcp-server\\standards"
+      }
+    }
+  }
+}
