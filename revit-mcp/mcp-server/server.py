@@ -7,8 +7,12 @@ load_dotenv()
 
 from fastmcp import FastMCP
 from typing import Optional
+import uuid
 import revit_client as rc
 import qa_engine as qa
+
+# In-memory cache: check_id → full QA report (survives across tool calls in the session)
+_report_cache: dict[str, dict] = {}
 
 mcp = FastMCP(
     name="ConciseZone Revit MCP",
@@ -195,6 +199,11 @@ def run_qa_check(standard_name: str) -> dict:
     report = qa.run_full_check(rules)
     report["standard"] = standard_name
     report["rules_checked"] = len(rules)
+
+    # Cache the report so apply_qa_fix / apply_all_fixable_issues can reference it
+    check_id = str(uuid.uuid4())[:8]
+    report["check_id"] = check_id
+    _report_cache[check_id] = report
     return report
 
 
@@ -221,6 +230,20 @@ def apply_qa_fix(
         "rule_id": rule_id or "manual"
     }
     return qa.apply_fix(issue, new_value=new_value)
+
+
+@mcp.tool()
+def get_qa_report(check_id: str) -> dict:
+    """
+    Retrieve a previously run QA report by its check_id.
+    check_id is returned in the run_qa_check response.
+    Useful for resuming a fix session without re-running the full check.
+    """
+    report = _report_cache.get(check_id)
+    if not report:
+        available = list(_report_cache.keys())
+        return {"error": f"No report found for check_id '{check_id}'.", "available": available}
+    return report
 
 
 @mcp.tool()

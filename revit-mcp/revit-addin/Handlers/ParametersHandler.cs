@@ -124,8 +124,17 @@ namespace RevitMCP.Addin.Handlers
                     p.Set(value);
                     break;
                 case StorageType.Double:
-                    if (double.TryParse(value, out var d)) p.Set(d);
-                    else throw new RevitApiException($"Cannot convert '{value}' to number.");
+                    if (!double.TryParse(value, out var d))
+                        throw new RevitApiException($"Cannot convert '{value}' to number.");
+                    // Revit stores lengths in feet internally — convert from the param's display unit
+                    try
+                    {
+                        var unitTypeId = p.GetUnitTypeId();
+                        if (unitTypeId != null && unitTypeId != UnitTypeId.Custom)
+                            d = UnitUtils.ConvertToInternalUnits(d, unitTypeId);
+                    }
+                    catch { /* param has no unit (dimensionless) — use value as-is */ }
+                    p.Set(d);
                     break;
                 case StorageType.Integer:
                     if (int.TryParse(value, out var i)) p.Set(i);
